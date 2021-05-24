@@ -32,7 +32,7 @@ node{
             def dockerRun= "sudo docker run -p 8082:8080 -d --name ${dockerContainerName} ${dockerImageName}" 
             withCredentials([string(credentialsId: 'ubuntu123', variable: 'dpPWD')]) {
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@35.174.113.149" 
-                  sh "sshpass -p ${dpPWD} scp -r stopscript.sh jenkins@35.174.113.149:/home/ubuntu" 
+                  sh "sshpass -p ${dpPWD} scp -r stopscript.sh ubuntu@35.174.113.149:/home/ubuntu" 
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@35.174.113.149 ${changingPermission}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@35.174.113.149 ${scriptRunner}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@35.174.113.149 ${dockerRun}"
