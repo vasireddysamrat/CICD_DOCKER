@@ -19,25 +19,27 @@ node{
       }  
    
       stage('Publish Docker Image'){
-       
+            
+         withCredentials([usernameColonPassword(credentialsId: 'Tarmas@238', variable: 'dockerPWD')]) {
               sh "docker login -u vasireddysamrat -p ${dockerPWD}"
        
         sh "docker push ${dockerImageName}"
       }
       
+      }         
     stage('Run Docker Image'){
             def dockerContainerName = 'javadockerapp_$JOB_NAME_$BUILD_NUMBER'
             def changingPermission='sudo chmod +x stopscript.sh'
             def scriptRunner='sudo ./stopscript.sh'           
             def dockerRun= "sudo docker run -p 8082:8080 -d --name ${dockerContainerName} ${dockerImageName}" 
-            
+              withCredentials([usernameColonPassword(credentialsId: 'ubuntu123', variable: 'dpPWD')]) {
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@54.147.82.150" 
                   sh "sshpass -p ${dpPWD} scp -r stopscript.sh ubuntu@54.147.82.150:/home/ubuntu" 
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@54.147.82.150 ${changingPermission}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@54.147.82.150 ${scriptRunner}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@54.147.82.150 ${dockerRun}"
            
-            
+              }
       
       }
       
