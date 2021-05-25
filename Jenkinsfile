@@ -36,7 +36,7 @@ node{
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@54.147.82.150 ${changingPermission}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@54.147.82.150 ${scriptRunner}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ubuntu@54.147.82.150 ${dockerRun}"
-            }
+           
             
       
       }
